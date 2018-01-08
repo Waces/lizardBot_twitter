@@ -1,1 +1,1 @@
-# lizardBot_twitter
+# lizardBot
