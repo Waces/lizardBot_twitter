@@ -6,7 +6,7 @@ Written in Python, using Tweepy
 
 @lizardpostBot
 
-
+> Hosted in www.pythonanywhere.com right now
 
 
 
