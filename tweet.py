@@ -18,11 +18,12 @@ api = tweepy.API(auth)
 path = "images"
 
 
-hourMin = 60
+hourMin = 3600
 # 60 for Mins, 3600 for hours, 1 for seconds
 
 # 90, 120 - 1h30m to 2h
 # 60,90 - 1h to 1h30m
+# 6, 10 (3600) to 6 to 12h
 
 def poolRemove():
     texts.archived.append(txt)
@@ -31,14 +32,17 @@ def poolRemove():
 def poolReset():
     texts.text.extend(texts.archived)
     texts.archived.clear()
-
+    # print('---')
 
 def tweet():
     api.update_with_media(im, txt)
 
+def errorTweet():
+    api.update_status('@Waces_Ferpit, BOT CRASHED! Please come to see the console.')
+
 # Main loop
 while 1 == 1:
-    sleepTime = random.randrange(3, 5)*hourMin
+    sleepTime = random.randrange(6, 12)*hourMin
     im = (path + "/" + random.choice(os.listdir(path)))
 
     if len(texts.text) != 0:
@@ -55,21 +59,23 @@ while 1 == 1:
 
     # print("---")
     try:
-        scrapper.download() # Download one random image from Google
+        scrapper.download()
     except:
         print("Download Failed")
     scrapper.imn = len(os.listdir(path))+1
-    imi = scrapper.imId			            # From here
+    imi = scrapper.imId
     scrapper.imId = random.randrange(0, 101)
     if scrapper.imId == imi:
-        scrapper.imId += 1                          
+        scrapper.imId += 1
         if scrapper.imId > 100:
             scrapper.imId -= random.randrange(3, 6)
         elif scrapper.imId < 0:
-            scrapper.imId -= random.randrange(3, 6) # To here is to make sure it doesn't pick the same, yeh, there are a lot better ways :P
+            scrapper.imId -= random.randrange(3, 6)
     scrapper.downFile = scrapper.images[scrapper.imId]['ou']
-    toRem = (path + "/" + random.choice(os.listdir(path))) # Select one random image to delete
-    os.system("rm %s" %toRem) # Deletes the image
+    toRem = (path + "/" + random.choice(os.listdir(path)))
+    os.system("rm %s" %toRem)
     print("Deleted:", toRem)
     print("---")
     time.sleep(sleepTime)
+
+errorTweet() #Tweet me ( @Waces_Ferpit ) if main loop breaks or anything.
